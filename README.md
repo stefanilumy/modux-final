@@ -80,7 +80,7 @@ O Modux oferece interfaces especializadas para diferentes contextos:
 1. **Clone o repositório**
 ```bash
 git clone <url-do-repositorio>
-cd modux
+cd modux-final
 ```
 
 2. **Configure as variáveis de ambiente**
