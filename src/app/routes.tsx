@@ -10,6 +10,7 @@ import { ModuxHistory } from "./components/modux/ModuxHistory";
 import { ModuxFiles } from "./components/modux/ModuxFiles";
 import { ModuxConnectors } from "./components/modux/ModuxConnectors";
 import { ModuxSettings } from "./components/modux/ModuxSettings";
+import { ModuxHelp } from "./components/modux/ModuxHelp";
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +27,7 @@ export const router = createBrowserRouter([
       { path: "files", Component: ModuxFiles },
       { path: "connectors", Component: ModuxConnectors },
       { path: "settings", Component: ModuxSettings },
+      { path: "help", Component: ModuxHelp },
       { path: "*", element: <Navigate to="/" replace /> },
     ],
   },

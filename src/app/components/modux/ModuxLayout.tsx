@@ -1,5 +1,5 @@
 import { Outlet, useLocation, Link } from 'react-router';
-import { Home, History, FileText, Plug, Settings, User, Menu, X } from 'lucide-react';
+import { Home, History, FileText, Plug, Settings, User, Menu, X, HelpCircle } from 'lucide-react';
 import { useState } from 'react';
 
 const navItems = [
@@ -8,6 +8,7 @@ const navItems = [
   { path: '/files', icon: FileText, label: 'Arquivos' },
   { path: '/connectors', icon: Plug, label: 'Conectores' },
   { path: '/settings', icon: Settings, label: 'Configurações' },
+  { path: '/help', icon: HelpCircle, label: 'Ajuda' },
 ];
 
 export function ModuxLayout() {
