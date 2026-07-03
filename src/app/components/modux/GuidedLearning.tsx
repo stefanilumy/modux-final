@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { ArrowLeft, TrendingUp } from 'lucide-react';
-import { askLLM } from '@/lib/llm.ts'
+import { askLLM } from '@/lib/llm.ts';
+import { toast } from 'sonner';
 
 const levels = ['Nada ainda', 'Sei o básico', 'Só tenho dúvida em exercício'];
 
@@ -30,6 +31,7 @@ export function GuidedLearning() {
       setStep(2);
     } catch (e) {
       console.error(e);
+      toast.error(e instanceof Error ? e.message : 'Não consegui responder agora. Tente novamente.');
     } finally {
       setLoading(false);
     }
@@ -48,6 +50,7 @@ export function GuidedLearning() {
       setShowHint(true);
     } catch (e) {
       console.error(e);
+      toast.error(e instanceof Error ? e.message : 'Não consegui responder agora. Tente novamente.');
     } finally {
       setLoading(false);
     }
@@ -68,6 +71,7 @@ export function GuidedLearning() {
       setStep(3);
     } catch (e) {
       console.error(e);
+      toast.error(e instanceof Error ? e.message : 'Não consegui responder agora. Tente novamente.');
     } finally {
       setLoading(false);
     }

@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { askLLM } from '@/lib/llm.ts';
 import ReactMarkdown from 'react-markdown';
 import { useHistory } from '@/app/context/HistoryContext';
+import { toast } from 'sonner';
 
 const modes = [
   {
@@ -121,6 +122,7 @@ export function ModuxHome() {
       setMessages(prev => [...prev, { role: 'ai', content: response }]);
     } catch (e) {
       console.error(e);
+      toast.error(e instanceof Error ? e.message : 'Não consegui responder agora. Tente novamente.');
     } finally {
       setIsLoading(false);
     }
