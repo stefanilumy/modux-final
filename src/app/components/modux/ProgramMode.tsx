@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Code, Terminal, CheckCircle, Lightbulb, Play, Copy, AlertCircle } from 'lucide-react';
-import { askLLM } from '@/lib/llm'
-import { useHistory } from '@/app/context/HistoryContext'
+import { askLLM } from '@/lib/llm';
+import { useHistory } from '@/app/context/HistoryContext';
+import { toast } from 'sonner';
 
 const languages = ['Python', 'JavaScript', 'TypeScript', 'Java', 'Go'];
 const helpTypes = ['Erro/Bug', 'Otimização', 'Nova Feature', 'Code Review'];

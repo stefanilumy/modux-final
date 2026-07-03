@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Lightbulb, Plus, Sparkles, Link2, TrendingUp, X } from 'lucide-react';
 import { askLLM } from '@/lib/llm';
-import { useHistory } from '@/app/context/HistoryContext'
+import { useHistory } from '@/app/context/HistoryContext';
+import { toast } from 'sonner';import { toast } from 'sonner';
 
 const categories = ['Produto', 'Marketing', 'Conteúdo', 'Design', 'Tecnologia'];
 const techniques = ['Mind Map', 'SCAMPER', 'Brainstorming Reverso', '6 Chapéus'];

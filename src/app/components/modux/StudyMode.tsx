@@ -7,7 +7,8 @@ import {
 } from "lucide-react";
 import { askLLM } from "@/lib/llm.ts";
 import ReactMarkdown from 'react-markdown';
-import { useHistory } from '@/app/context/HistoryContext'
+import { useHistory } from '@/app/context/HistoryContext';
+import { toast } from 'sonner';
 
 const knowledgeLevels = [
   "Nada ainda",

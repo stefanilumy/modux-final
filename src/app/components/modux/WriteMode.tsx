@@ -3,6 +3,7 @@ import { FileText, Loader2, Send, Copy } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { askLLM } from '@/lib/llm.ts';
 import { useHistory } from '@/app/context/HistoryContext';
+import { toast } from 'sonner';
 
 export function WriteMode() {
   const [theme, setTheme] = useState('');
