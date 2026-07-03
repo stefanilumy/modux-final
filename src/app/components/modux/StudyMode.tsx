@@ -61,7 +61,19 @@ export function StudyMode() {
          Adapte o conteúdo ao nível do aluno.`,
         `Pergunta do aluno: ${question}. Nível: ${level}.`
       );
-      const parsed = JSON.parse(response);
+      const cleaned = response.replace(/```json/gi, '').replace(/```/g, '').trim();
+      const match = cleaned.match(/\[[\s\S]*\]/);
+      const jsonText = match ? match[0] : cleaned;
+
+      let parsed: LearningStep[];
+      try {
+        parsed = JSON.parse(jsonText);
+      } catch {
+        throw new Error('Não consegui montar o passo a passo. Tente reformular a pergunta.');
+      }
+      if (!Array.isArray(parsed) || parsed.length === 0) {
+        throw new Error('A IA devolveu um formato inesperado. Tente novamente.');
+}
       setLearningSteps(parsed);
       addConversation({
         title: question,
@@ -75,6 +87,7 @@ export function StudyMode() {
       });
     } catch (e) {
       console.error(e);
+      toast.error(e instanceof Error ? e.message : 'Não consegui responder agora. Tente novamente.');
     } finally {
       setLoading(false);
     }
@@ -105,6 +118,7 @@ export function StudyMode() {
       setShowHint(true);
     } catch (e) {
       console.error(e);
+      toast.error(e instanceof Error ? e.message : 'Não consegui responder agora. Tente novamente.');
     } finally {
       setLoading(false);
     }
@@ -148,6 +162,7 @@ export function StudyMode() {
       });
     } catch (e) {
       console.error(e);
+      toast.error(e instanceof Error ? e.message : 'Não consegui responder agora. Tente novamente.');
     } finally {
       setLoading(false);
     }

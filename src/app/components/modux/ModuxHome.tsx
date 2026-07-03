@@ -122,6 +122,7 @@ export function ModuxHome() {
       setMessages(prev => [...prev, { role: 'ai', content: response }]);
     } catch (e) {
       console.error(e);
+      toast.error(e instanceof Error ? e.message : 'Não consegui responder agora. Tente novamente.');
     } finally {
       setIsLoading(false);
     }

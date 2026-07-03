@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { BarChart3, CheckCircle2, Bell, Palette, Globe } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface Setting {
   id: string;
@@ -142,7 +143,10 @@ export function ModuxSettings() {
                     <p className="text-sm text-gray-600">Receber alertas e atualizações</p>
                   </div>
                 </div>
-                <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm">
+                <button
+                  onClick={() => toast('Em breve', { description: 'Esta opção ainda não está disponível no protótipo.' })} 
+                  className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm"
+                >
                   Configurar
                 </button>
               </div>
@@ -155,7 +159,10 @@ export function ModuxSettings() {
                     <p className="text-sm text-gray-600">Tema claro</p>
                   </div>
                 </div>
-                <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm">
+                <button 
+                  onClick={() => toast('Em breve', { description: 'Esta opção ainda não está disponível no protótipo.' })}
+                  className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm"
+                >
                   Alterar
                 </button>
               </div>
@@ -168,7 +175,10 @@ export function ModuxSettings() {
                     <p className="text-sm text-gray-600">Português (Brasil)</p>
                   </div>
                 </div>
-                <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm">
+                <button 
+                  onClick={() => toast('Em breve', { description: 'Esta opção ainda não está disponível no protótipo.' })}
+                  className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm"
+                >
                   Mudar
                 </button>
               </div>

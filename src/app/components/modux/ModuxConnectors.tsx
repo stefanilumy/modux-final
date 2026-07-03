@@ -54,12 +54,6 @@ const memoryPreferences = [
     enabled: true,
   },
   {
-    id: 'guided-responses',
-    title: 'Priorizar respostas guiadas',
-    description: 'Ensinar antes de responder',
-    enabled: true,
-  },
-  {
     id: 'temp-memory',
     title: 'Memória temporária',
     description: 'Esquecer após cada sessão',
@@ -86,7 +80,12 @@ export function ModuxConnectors() {
   const [selectedProfile, setSelectedProfile] = useState<string | null>('student');
 
   const toggleConnector = (id: string) => {
-    setConnectorStates({ ...connectorStates, [id]: !connectorStates[id] });
+    const isConnected = connectorStates[id];
+    if (isConnected) {
+      const name = connectors.find((c) => c.id === id)?.name ?? 'este conector';
+      if (!window.confirm(`Deseja desconectar ${name}?`)) return;   // + confirmação com Cancelar
+    }
+    setConnectorStates({ ...connectorStates, [id]: !isConnected });
   };
 
   const togglePreference = (id: string) => {

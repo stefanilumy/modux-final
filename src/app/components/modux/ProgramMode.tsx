@@ -100,6 +100,7 @@ export function ProgramMode() {
       });
     } catch (e) {
       console.error(e);
+      toast.error(e instanceof Error ? e.message : 'Não consegui responder agora. Tente novamente.');
     } finally {
       setLoading(false);
     }
@@ -110,8 +111,10 @@ export function ProgramMode() {
 
     try {
       await navigator.clipboard.writeText(solutionText);
+      toast.success('Copiado para a área de transferência');
     } catch (error) {
       console.error('Erro ao copiar solução:', error);
+      toast.error('Não foi possível copiar.');
     }
   };
 

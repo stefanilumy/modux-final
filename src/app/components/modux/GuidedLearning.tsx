@@ -31,6 +31,7 @@ export function GuidedLearning() {
       setStep(2);
     } catch (e) {
       console.error(e);
+      toast.error(e instanceof Error ? e.message : 'Não consegui responder agora. Tente novamente.');
     } finally {
       setLoading(false);
     }
@@ -49,6 +50,7 @@ export function GuidedLearning() {
       setShowHint(true);
     } catch (e) {
       console.error(e);
+      toast.error(e instanceof Error ? e.message : 'Não consegui responder agora. Tente novamente.');
     } finally {
       setLoading(false);
     }
@@ -69,6 +71,7 @@ export function GuidedLearning() {
       setStep(3);
     } catch (e) {
       console.error(e);
+      toast.error(e instanceof Error ? e.message : 'Não consegui responder agora. Tente novamente.');
     } finally {
       setLoading(false);
     }

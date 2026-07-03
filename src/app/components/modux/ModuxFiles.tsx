@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { useHistory, GeneratedFile } from '@/app/context/HistoryContext';
+import { toast } from 'sonner';
 
 const fileCategories = [
   'Todos',
@@ -180,8 +181,10 @@ export function ModuxFiles() {
   const handleShare = async (file: GeneratedFile) => {
     try {
       await navigator.clipboard.writeText(file.content);
+      toast.success('Copiado para a área de transferência');
     } catch (error) {
       console.error('Erro ao copiar arquivo:', error);
+      toast.error('Não foi possível copiar.');
     }
   };
 

@@ -56,8 +56,9 @@ O texto deve ser claro, coeso e adequado ao tema informado pelo usuário.`,
             },
         ],
     });
-    } catch (error) {
-      console.error(error);
+    } catch (e) {
+      console.error(e);
+      toast.error(e instanceof Error ? e.message : 'Não consegui responder agora. Tente novamente.');
     } finally {
       setLoading(false);
     }
@@ -68,8 +69,10 @@ O texto deve ser claro, coeso e adequado ao tema informado pelo usuário.`,
 
     try {
       await navigator.clipboard.writeText(generatedText);
+      toast.success('Copiado para a área de transferência');
     } catch (error) {
       console.error('Erro ao copiar texto:', error);
+      toast.error('Não foi possível copiar.');
     }
   };
 
