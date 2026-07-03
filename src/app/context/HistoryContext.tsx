@@ -30,6 +30,7 @@ export interface Conversation {
 interface HistoryContextType {
   conversations: Conversation[];
   addConversation: (conv: Omit<Conversation, 'id' | 'time' | 'createdAt'>) => string;
+  updateConversation: (id: string, conv: Omit<Conversation, 'id' | 'time' | 'createdAt'>) => void;
   appendMessage: (id: string, message: Message) => void;
   activeConversation: Conversation | null;
   setActiveConversation: (conv: Conversation | null) => void;
@@ -56,6 +57,20 @@ export function HistoryProvider({ children }: { children: ReactNode }) {
     return newConv.id;
   };
 
+  const updateConversation = (id: string, conv: Omit<Conversation, 'id' | 'time' | 'createdAt'>) => {
+    setConversations((prev) =>
+      prev.map((conversation) =>
+        conversation.id === id
+          ? {
+              ...conversation,
+              ...conv,
+              generatedFiles: conv.generatedFiles ?? [],
+            }
+          : conversation
+      )
+    );
+  };
+
   const appendMessage = (id: string, message: Message) => {
     setConversations((prev) =>
       prev.map((conv) =>
@@ -67,7 +82,7 @@ export function HistoryProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <HistoryContext.Provider value={{ conversations, addConversation, appendMessage, activeConversation, setActiveConversation }}>
+    <HistoryContext.Provider value={{ conversations, addConversation, updateConversation, appendMessage, activeConversation, setActiveConversation }}>
       {children}
     </HistoryContext.Provider>
   );

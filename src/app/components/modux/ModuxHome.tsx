@@ -63,17 +63,19 @@ export function ModuxHome() {
   };
 
   const messagesRef = useRef(messages);
+  const activeConversationIdRef = useRef<string | null>(null);
   useEffect(() => {
     messagesRef.current = messages;
   }, [messages]);
 
-  const { addConversation, activeConversation, setActiveConversation } = useHistory();
+  const { addConversation, updateConversation, activeConversation, setActiveConversation } = useHistory();
 
   useEffect(() => {
     if (location.state?.resetHomeChat) {
       setMessages([]);
       setQuestion('');
       setIsLoading(false);
+      activeConversationIdRef.current = null;
       setActiveConversation(null);
 
       navigate('/', { replace: true, state: null });
@@ -82,6 +84,7 @@ export function ModuxHome() {
 
   useEffect(() => {
     if (activeConversation) {
+      activeConversationIdRef.current = activeConversation.id;
       setMessages(activeConversation.conversation.map(m => ({
         role: m.role,
         content: m.content,
@@ -94,16 +97,23 @@ export function ModuxHome() {
   useEffect(() => {
     return () => {
       if (messagesRef.current.length > 0) {
-        addConversation({
+        const conversationData = {
           title: messagesRef.current[0].content.slice(0, 50),
           preview: messagesRef.current[1]?.content.slice(0, 80) ?? '',
           category: 'general',
           hasFiles: false,
           conversation: messagesRef.current,
-        });
+        };
+
+        if (activeConversationIdRef.current) {
+          updateConversation(activeConversationIdRef.current, conversationData);
+          return;
+        }
+
+        addConversation(conversationData);
       }
     };
-  }, []);
+  }, [addConversation, updateConversation]);
 
   const handleQuickChat = async () => {
     if (!question.trim() || isLoading) return;
@@ -218,7 +228,10 @@ export function ModuxHome() {
             )}
             <div className="flex justify-end">
               <button
-                onClick={() => setMessages([])}
+                onClick={() => {
+                  activeConversationIdRef.current = null;
+                  setMessages([]);
+                }}
                 className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm"
               >
                 Nova conversa
