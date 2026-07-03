@@ -157,7 +157,7 @@ export function ModuxConnectors() {
   return (
     <div className="h-full flex flex-col overflow-auto">
       {/* Header */}
-      <div className="border-b border-gray-200 bg-white px-8 py-8 pl-16">
+      <div className="border-b border-gray-200 bg-white px-8 py-8 pl-20">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Conectores e Contexto</h1>
         <p className="text-gray-600">
           Integre ferramentas e personalize sua experiência.
