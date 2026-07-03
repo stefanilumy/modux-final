@@ -66,30 +66,92 @@ const contextProfiles = [
   { id: 'developer', label: 'Desenvolvedor', icon: Code, color: 'text-purple-600' },
   { id: 'researcher', label: 'Pesquisador', icon: User, color: 'text-green-600' },
   { id: 'creative', label: 'Criativo', icon: Palette, color: 'text-orange-600' },
-];
+] as const;
+
+type ProfileId = (typeof contextProfiles)[number]['id'];
+type ConnectorState = Record<string, boolean>;
+type PreferenceState = Record<string, boolean>;
+
+type ProfileConfiguration = {
+  connectors: ConnectorState;
+  preferences: PreferenceState;
+};
+
+const createConnectorState = (overrides: Partial<ConnectorState> = {}): ConnectorState =>
+  connectors.reduce(
+    (acc, connector) => ({
+      ...acc,
+      [connector.id]: overrides[connector.id] ?? connector.connected,
+    }),
+    {} as ConnectorState
+  );
+
+const createPreferenceState = (overrides: Partial<PreferenceState> = {}): PreferenceState =>
+  memoryPreferences.reduce(
+    (acc, preference) => ({
+      ...acc,
+      [preference.id]: overrides[preference.id] ?? preference.enabled,
+    }),
+    {} as PreferenceState
+  );
+
+const profileConfigurationDefaults: Record<ProfileId, ProfileConfiguration> = {
+  student: {
+    connectors: createConnectorState(),
+    preferences: createPreferenceState(),
+  },
+  developer: {
+    connectors: createConnectorState({ github: true, drive: true }),
+    preferences: createPreferenceState({ context: true }),
+  },
+  researcher: {
+    connectors: createConnectorState({ calendar: false, drive: true }),
+    preferences: createPreferenceState({ 'temp-memory': true }),
+  },
+  creative: {
+    connectors: createConnectorState({ gmail: false, github: false }),
+    preferences: createPreferenceState({ 'save-preferences': false }),
+  },
+};
 
 export function ModuxConnectors() {
-  const [connectorStates, setConnectorStates] = useState(
-    connectors.reduce((acc, conn) => ({ ...acc, [conn.id]: conn.connected }), {} as Record<string, boolean>)
-  );
+  const [profileStates, setProfileStates] = useState(profileConfigurationDefaults);
+  const [selectedProfile, setSelectedProfile] = useState<ProfileId>('student');
 
-  const [preferenceStates, setPreferenceStates] = useState(
-    memoryPreferences.reduce((acc, pref) => ({ ...acc, [pref.id]: pref.enabled }), {} as Record<string, boolean>)
-  );
-
-  const [selectedProfile, setSelectedProfile] = useState<string | null>('student');
+  const activeProfile = selectedProfile;
+  const connectorStates = profileStates[activeProfile].connectors;
+  const preferenceStates = profileStates[activeProfile].preferences;
 
   const toggleConnector = (id: string) => {
     const isConnected = connectorStates[id];
     if (isConnected) {
       const name = connectors.find((c) => c.id === id)?.name ?? 'este conector';
-      if (!window.confirm(`Deseja desconectar ${name}?`)) return;   // + confirmação com Cancelar
+      if (!window.confirm(`Deseja desconectar ${name}?`)) return;
     }
-    setConnectorStates({ ...connectorStates, [id]: !isConnected });
+
+    setProfileStates((currentStates) => ({
+      ...currentStates,
+      [activeProfile]: {
+        ...currentStates[activeProfile],
+        connectors: {
+          ...currentStates[activeProfile].connectors,
+          [id]: !isConnected,
+        },
+      },
+    }));
   };
 
   const togglePreference = (id: string) => {
-    setPreferenceStates({ ...preferenceStates, [id]: !preferenceStates[id] });
+    setProfileStates((currentStates) => ({
+      ...currentStates,
+      [activeProfile]: {
+        ...currentStates[activeProfile],
+        preferences: {
+          ...currentStates[activeProfile].preferences,
+          [id]: !currentStates[activeProfile].preferences[id],
+        },
+      },
+    }));
   };
 
   return (
