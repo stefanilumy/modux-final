@@ -1,5 +1,5 @@
 import { Outlet, useLocation, Link } from 'react-router';
-import { Home, History, FileText, Plug, Settings, User, Menu, X, BookOpen, Code, Lightbulb, PenLine } from 'lucide-react';
+import { Home, History, FileText, Plug, Settings, User, Menu, X, HelpCircle, BookOpen, Code, Lightbulb, PenLine } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -13,6 +13,7 @@ const navItems = [
   { path: '/files', icon: FileText, label: 'Arquivos' },
   { path: '/connectors', icon: Plug, label: 'Conectores' },
   { path: '/settings', icon: Settings, label: 'Configurações' },
+  { path: '/help', icon: HelpCircle, label: 'Ajuda' },
 ];
 
 export function ModuxLayout() {
@@ -24,7 +25,7 @@ export function ModuxLayout() {
       {/* Sidebar Toggle Button */}
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="fixed top-4 left-4 z-50 p-2 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-all md:hidden"
+        className={`fixed top-4 left-4 z-50 p-2 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-all ${sidebarOpen ? 'md:hidden' : ''}`}
       >
         {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
       </button>
@@ -36,7 +37,7 @@ export function ModuxLayout() {
         } fixed md:relative z-40 w-64 h-screen bg-white border-r border-gray-200 flex flex-col transition-transform duration-300 ease-in-out`}
       >
         {/* Logo */}
-        <div className="px-6 py-6 border-b border-gray-200">
+        <div className="px-6 py-6 border-b border-gray-200 cursor-pointer" onClick={() => setSidebarOpen(!sidebarOpen)}>
           <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             MODUX
           </h1>

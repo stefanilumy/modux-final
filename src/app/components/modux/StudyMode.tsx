@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   Lightbulb,
-  ArrowRight,
   X,
   CheckCircle,
 } from "lucide-react";
@@ -286,9 +285,6 @@ export function StudyMode() {
                               </div>
                             )}
                           </div>
-                          {index === currentStep && (
-                            <ArrowRight className="w-5 h-5 text-blue-600 flex-shrink-0 mt-1 animate-pulse" />
-                          )}
                         </div>
                         {index < learningSteps.length - 1 && (
                           <div className="w-px h-4 bg-gray-300 ml-8" />
