@@ -1,9 +1,14 @@
 import { Outlet, useLocation, Link } from 'react-router';
-import { Home, History, FileText, Plug, Settings, User, Menu, X } from 'lucide-react';
+import { Home, History, FileText, Plug, Settings, User, Menu, X, BookOpen, Code, Lightbulb, PenLine } from 'lucide-react';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 const navItems = [
   { path: '/', icon: Home, label: 'Home' },
+  { path: '/study', icon: BookOpen, label: 'Estudar' },
+  { path: '/program', icon: Code, label: 'Programar' },
+  { path: '/brainstorm', icon: Lightbulb, label: 'Brainstorm' },
+  { path: '/write', icon: PenLine, label: 'Escrever' },
   { path: '/history', icon: History, label: 'Histórico' },
   { path: '/files', icon: FileText, label: 'Arquivos' },
   { path: '/connectors', icon: Plug, label: 'Conectores' },
@@ -41,7 +46,9 @@ export function ModuxLayout() {
         <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
           {navItems.map((item) => {
             const Icon = item.icon;
-            const isActive = location.pathname === item.path;
+            const isActive = item.path === '/'
+              ? location.pathname === '/'
+              : location.pathname.startsWith(item.path);
 
             return (
               <Link
@@ -64,7 +71,11 @@ export function ModuxLayout() {
 
         {/* User Profile */}
         <div className="p-4 border-t border-gray-200">
-          <div className="flex items-center gap-3 px-4 py-3 rounded-xl">
+          <button
+            onClick={() => toast('Em breve', { description: 'O perfil ainda não está disponível no protótipo.' })}
+            aria-label="Abrir perfil"
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left hover:bg-gray-50 transition-colors"
+          >
             <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
               <User className="w-5 h-5 text-white" />
             </div>
@@ -74,7 +85,7 @@ export function ModuxLayout() {
               </p>
               <p className="text-xs text-gray-500">Perfil</p>
             </div>
-          </div>
+          </button>
         </div>
       </aside>
 

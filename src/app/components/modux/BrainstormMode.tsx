@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Lightbulb, Plus, Sparkles, Link2, TrendingUp, X } from 'lucide-react';
 import { askLLM } from '@/lib/llm';
-import { useHistory } from '@/app/context/HistoryContext'
+import { useHistory } from '@/app/context/HistoryContext';
+import { toast } from 'sonner';
 
 const categories = ['Produto', 'Marketing', 'Conteúdo', 'Design', 'Tecnologia'];
 const techniques = ['Mind Map', 'SCAMPER', 'Brainstorming Reverso', '6 Chapéus'];
@@ -65,6 +66,7 @@ export function BrainstormMode() {
       setShowSuggestions(true);
     } catch (e) {
       console.error(e);
+      toast.error(e instanceof Error ? e.message : 'Não consegui responder agora. Tente novamente.');
     } finally {
       setLoading(false);
     }
