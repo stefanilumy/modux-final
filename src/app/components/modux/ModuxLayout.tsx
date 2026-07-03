@@ -33,8 +33,8 @@ export function ModuxLayout() {
       {/* Sidebar */}
       <aside
         className={`${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        } fixed md:relative z-40 w-64 h-screen bg-white border-r border-gray-200 flex flex-col transition-transform duration-300 ease-in-out`}
+          sidebarOpen ? 'translate-x-0 w-64' : '-translate-x-full md:w-0 md:opacity-0'
+        } fixed md:relative z-40 h-screen bg-white border-r border-gray-200 flex flex-col transition-all duration-300 ease-in-out`}
       >
         {/* Logo */}
         <div className="px-6 py-6 border-b border-gray-200 cursor-pointer" onClick={() => setSidebarOpen(!sidebarOpen)}>
