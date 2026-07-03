@@ -2,6 +2,10 @@
 
 Um projeto de pesquisa em **IHC/UX** que reimagina como interagimos com modelos de linguagem (LLMs), criando interfaces contextualizadas para diferentes tipos de tarefas e reduzindo a dependência indiscriminada de IA.
 
+## 🔗 Acesso Rápido
+
+- **Projeto online:** https://modux-final.vercel.app/
+
 ## 🎯 Objetivo
 
 Replanejar a interface de LLMs (como ChatGPT, Claude, Gemini) explorando diferentes interfaces para diferentes tarefas. O Modux diferencia contextos de uso como:

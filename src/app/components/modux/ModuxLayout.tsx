@@ -1,5 +1,5 @@
 import { Outlet, useLocation, Link } from 'react-router';
-import { Home, History, FileText, Plug, Settings, User, Menu, X, HelpCircle, BookOpen, Code, Lightbulb, PenLine } from 'lucide-react';
+import { Home, History, FileText, Plug, Settings, User, ChevronRight, ChevronLeft, HelpCircle, BookOpen, Code, Lightbulb, PenLine } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -22,25 +22,36 @@ export function ModuxLayout() {
 
   return (
     <div className="flex h-screen bg-[#fafafa]">
-      {/* Sidebar Toggle Button */}
-      <button
-        onClick={() => setSidebarOpen(!sidebarOpen)}
-        className={`fixed top-4 left-4 z-50 p-2 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-all ${sidebarOpen ? 'md:hidden' : ''}`}
-      >
-        {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-      </button>
+      {!sidebarOpen && (
+        <button
+          onClick={() => setSidebarOpen(true)}
+          aria-label="Abrir menu lateral"
+          className="fixed top-4 left-4 z-[60] inline-flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 shadow-sm transition-all hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        >
+          <ChevronRight className="w-5 h-5" />
+        </button>
+      )}
 
       {/* Sidebar */}
       <aside
         className={`${
-          sidebarOpen ? 'translate-x-0 w-64' : '-translate-x-full md:w-0 md:opacity-0'
-        } fixed md:relative z-40 h-screen bg-white border-r border-gray-200 flex flex-col transition-all duration-300 ease-in-out`}
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        } fixed inset-y-0 left-0 z-40 w-64 h-screen bg-white border-r border-gray-200 flex flex-col transition-transform duration-300 ease-in-out`}
       >
-        {/* Logo */}
-        <div className="px-6 py-6 border-b border-gray-200 cursor-pointer" onClick={() => setSidebarOpen(!sidebarOpen)}>
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            MODUX
-          </h1>
+        {/* Sidebar Header */}
+        <div className="flex items-center justify-between gap-3 px-4 py-4 border-b border-gray-200 bg-white/80 backdrop-blur-sm">
+          <div className="px-2">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              MODUX
+            </h1>
+          </div>
+          <button
+            onClick={() => setSidebarOpen(false)}
+            aria-label="Recolher menu lateral"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 shadow-sm transition-all hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </button>
         </div>
 
         {/* Navigation */}
@@ -99,7 +110,7 @@ export function ModuxLayout() {
       )}
 
       {/* Main Content Area */}
-      <main className="flex-1 overflow-auto">
+      <main className={`flex-1 overflow-auto transition-[padding-left] duration-300 ${sidebarOpen ? 'md:pl-64' : 'md:pl-0'}`}>
         <Outlet />
       </main>
     </div>
