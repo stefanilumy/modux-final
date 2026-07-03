@@ -170,7 +170,7 @@ export function StudyMode() {
   return (
     <div className="h-full flex flex-col overflow-auto">
       {/* Header */}
-      <div className="border-b border-gray-200 bg-white px-8 py-8">
+      <div className="border-b border-gray-200 bg-white px-8 py-8 pl-16">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Modo Estudo</h1>
         <p className="text-gray-600">Aprender antes de responder.</p>
       </div>

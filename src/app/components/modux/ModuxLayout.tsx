@@ -36,7 +36,7 @@ export function ModuxLayout() {
       <aside
         className={`${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        } fixed md:relative z-40 w-64 h-screen bg-white border-r border-gray-200 flex flex-col transition-transform duration-300 ease-in-out`}
+        } fixed inset-y-0 left-0 z-40 w-64 h-screen bg-white border-r border-gray-200 flex flex-col transition-transform duration-300 ease-in-out`}
       >
         {/* Sidebar Header */}
         <div className="flex items-center justify-between gap-3 px-4 py-4 border-b border-gray-200 bg-white/80 backdrop-blur-sm">
@@ -110,7 +110,7 @@ export function ModuxLayout() {
       )}
 
       {/* Main Content Area */}
-      <main className="flex-1 overflow-auto">
+      <main className={`flex-1 overflow-auto transition-[padding-left] duration-300 ${sidebarOpen ? 'md:pl-64' : 'md:pl-0'}`}>
         <Outlet />
       </main>
     </div>
