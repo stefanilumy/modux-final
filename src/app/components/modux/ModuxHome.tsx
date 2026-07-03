@@ -150,13 +150,13 @@ export function ModuxHome() {
   };
 
   return (
-    <div className="flex flex-col min-h-full px-8 py-8">
-      <div className="w-full max-w-4xl mx-auto flex flex-col flex-1">
+    <div className="flex min-h-full items-center justify-center px-8 py-8">
+      <div className="flex w-full max-w-4xl flex-col gap-8">
         
         { messages.length === 0 && (
           <>
                 {/* Header Text */}
-                <div className="text-center mb-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                <div className="text-center animate-in fade-in slide-in-from-bottom-4 duration-700">
                   <h2 className="text-4xl font-bold text-gray-900 mb-3">
                     Como você quer usar a IA hoje?
                   </h2>
@@ -166,7 +166,7 @@ export function ModuxHome() {
                 </div>
         
                 {/* Mode Cards */}
-                <div className="flex justify-center gap-4 mb-12 flex-wrap">
+                <div className="flex justify-center gap-4 flex-wrap">
                   {modes.map((mode, index) => {
                     const Icon = mode.icon;
                     return (
@@ -192,7 +192,7 @@ export function ModuxHome() {
 
         {/* Quick Response */}
         {messages.length > 0 && (
-          <div className="mb-8 space-y-4">
+          <div className="space-y-4">
             {messages.map((message, index) => (
               <div key={index} className={`flex gap-3 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                 {message.role === 'ai' && (
@@ -241,7 +241,7 @@ export function ModuxHome() {
         )}
 
         {/* Quick Input */}
-        <div className="mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700" style={{ animationDelay: '400ms' }}>
+        <div className="animate-in fade-in slide-in-from-bottom-4 duration-700" style={{ animationDelay: '400ms' }}>
           <div className="bg-white border-2 border-gray-300 rounded-2xl shadow-sm hover:shadow-md hover:border-blue-400 transition-all duration-300 p-4 flex items-center gap-3">
             <textarea
               value={question}
