@@ -7,7 +7,6 @@ import {
 import { askLLM } from "@/lib/llm.ts";
 import ReactMarkdown from 'react-markdown';
 import { useHistory } from '@/app/context/HistoryContext';
-import { toast } from 'sonner';
 
 const knowledgeLevels = [
   "Nada ainda",
@@ -60,19 +59,7 @@ export function StudyMode() {
          Adapte o conteúdo ao nível do aluno.`,
         `Pergunta do aluno: ${question}. Nível: ${level}.`
       );
-      const cleaned = response.replace(/```json/gi, '').replace(/```/g, '').trim();
-      const match = cleaned.match(/\[[\s\S]*\]/);
-      const jsonText = match ? match[0] : cleaned;
-
-      let parsed: LearningStep[];
-      try {
-        parsed = JSON.parse(jsonText);
-      } catch {
-        throw new Error('Não consegui montar o passo a passo. Tente reformular a pergunta.');
-      }
-      if (!Array.isArray(parsed) || parsed.length === 0) {
-        throw new Error('A IA devolveu um formato inesperado. Tente novamente.');
-}
+      const parsed = JSON.parse(response);
       setLearningSteps(parsed);
       addConversation({
         title: question,
@@ -86,7 +73,6 @@ export function StudyMode() {
       });
     } catch (e) {
       console.error(e);
-      toast.error(e instanceof Error ? e.message : 'Não consegui responder agora. Tente novamente.');
     } finally {
       setLoading(false);
     }
@@ -94,8 +80,20 @@ export function StudyMode() {
 
   const handleNextStep = () => {
     if (currentStep < learningSteps.length - 1) {
-      setCompletedSteps([...completedSteps, currentStep]);
+
+      if (!completedSteps.includes(currentStep)) {
+        setCompletedSteps([...completedSteps, currentStep]);
+      }
       setCurrentStep(currentStep + 1);
+      setShowHint(false);
+      setAiHint(null);
+    }
+  };
+
+
+  const handlePrevStep = () => {
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
       setShowHint(false);
       setAiHint(null);
     }
@@ -117,7 +115,6 @@ export function StudyMode() {
       setShowHint(true);
     } catch (e) {
       console.error(e);
-      toast.error(e instanceof Error ? e.message : 'Não consegui responder agora. Tente novamente.');
     } finally {
       setLoading(false);
     }
@@ -161,7 +158,6 @@ export function StudyMode() {
       });
     } catch (e) {
       console.error(e);
-      toast.error(e instanceof Error ? e.message : 'Não consegui responder agora. Tente novamente.');
     } finally {
       setLoading(false);
     }
@@ -279,6 +275,8 @@ export function StudyMode() {
                           <div className="flex-1">
                             <h4 className="font-semibold text-gray-900 mb-1">{step.title}</h4>
                             <p className="text-sm text-gray-600 mb-2">{step.description}</p>
+                            
+                            {/* O segredo do card que abre e fecha está aqui: index === currentStep */}
                             {index === currentStep && (
                               <div className="mt-3 p-3 bg-white rounded-lg border border-gray-200 animate-in fade-in slide-in-from-top-4 duration-300">
                                 <p className="text-sm text-gray-700 leading-relaxed">{step.content}</p>
@@ -295,6 +293,17 @@ export function StudyMode() {
 
                   {/* Action Buttons */}
                   <div className="mt-6 flex gap-3 flex-wrap">
+                    {/* Botão de Voltar adicionado aqui */}
+                    {currentStep > 0 && (
+                      <button
+                        onClick={handlePrevStep}
+                        disabled={loading}
+                        className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all duration-300 hover:scale-105"
+                      >
+                        ← Voltar
+                      </button>
+                    )}
+
                     <button
                       onClick={handleShowHint}
                       disabled={loading}
@@ -302,6 +311,7 @@ export function StudyMode() {
                     >
                       💡 Quero dica
                     </button>
+                    
                     {currentStep < learningSteps.length - 1 && (
                       <button
                         onClick={handleNextStep}
@@ -311,6 +321,7 @@ export function StudyMode() {
                         Próximo passo →
                       </button>
                     )}
+
                     <button
                       onClick={handleShowFullAnswer}
                       disabled={loading}
@@ -344,20 +355,20 @@ export function StudyMode() {
           )}
 
           {/* Full Answer */}
-              {showFullAnswer && aiFullAnswer && (
-                <div className="bg-white border-2 border-purple-300 rounded-xl p-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                  <div className="flex items-start justify-between mb-4">
-                    <h3 className="font-bold text-gray-900 text-lg">Resposta Completa</h3>
-                    <button
-                      onClick={() => setShowFullAnswer(false)}
-                      className="p-1 hover:bg-gray-100 rounded-full transition-colors"
-                    >
-                      <X className="w-5 h-5 text-gray-600" />
-                    </button>
-                  </div>
-                  <ReactMarkdown>{aiFullAnswer ?? ''}</ReactMarkdown>
-                </div>
-              )}
+          {showFullAnswer && aiFullAnswer && (
+            <div className="bg-white border-2 border-purple-300 rounded-xl p-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <div className="flex items-start justify-between mb-4">
+                <h3 className="font-bold text-gray-900 text-lg">Resposta Completa</h3>
+                <button
+                  onClick={() => setShowFullAnswer(false)}
+                  className="p-1 hover:bg-gray-100 rounded-full transition-colors"
+                >
+                  <X className="w-5 h-5 text-gray-600" />
+                </button>
+              </div>
+              <ReactMarkdown>{aiFullAnswer ?? ''}</ReactMarkdown>
+            </div>
+          )}
         </div>
       </div>
     </div>
